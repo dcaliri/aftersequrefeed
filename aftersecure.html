@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Todo lo q pasa en el AfterSequre!</title>
+		<link href="css/bootstrap.css" rel="stylesheet" type="text/css" />
+		<link href="css/simple.css" rel="stylesheet" type="text/css" />
+		<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+		<script type="text/javascript" src="js/jmpress.js"></script>
+		<script type="text/javascript" src="js/jmpress.duration.js"></script>
+		<script type="text/javascript" src="js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="js/jquery.timeago.js"></script>
+		
+	</head>
+	<body>
+		<script type="text/javascript">
+			window.onload = function() {
+				var twit = {
+					user : '',
+					text : '',
+					image : ''
+				};
+				var twits = [];
+				var url = 'http://search.twitter.com/search.json?callback=?&q=';
+				var query = 'aftersequre';
+
+				$.ajax({
+					dataType : 'json',
+					url : url + query,
+					success : function(data) {
+						$.each(data.results, function(i, tweet) {
+							$("#twitpress").append('<div class="step" data-rotate="' + (-30-3*i) + '" data-y="' + (50 + 300 * i) + '" data-scale="' + (1 - (0.05*i)) + '"> <p>' + tweet.text + '</p> <p><img src="' + tweet.profile_image_url + '" widt="70" height="70" /> @' + tweet.from_user + '</p>' + jQuery.timeago(tweet.created_at) + '</div>');
+							
+						});
+						
+						var tempArr = [];
+						for(i in twits) {
+							tempArr.push(i);
+						}
+
+						var orderedTwits = sortByValue(tempArr, twits);
+
+						function sortByValue(keyArray, valueMap) {
+							return keyArray.sort(function(a,b){return valueMap[b]-valueMap[a];});
+						}
+						$('#twitpress').jmpress({
+							duration: { defaultValue: 5000 }
+						});
+					}
+				});
+
+			}
+		</script>
+
+		<div class="twits">
+			<div id="twitpress" class="span8 offset4">
+			</div>
+		</div>
+	</body>
+</html>
