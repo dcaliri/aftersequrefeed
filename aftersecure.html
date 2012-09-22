@@ -14,7 +14,7 @@
 	</head>
 	<body>
 		<script type="text/javascript">
-                        window.setInterval(function(){
+                        window.onload = function(){
 				var twit = {
 					user : '',
 					text : '',
@@ -49,7 +49,9 @@
 					}
 				});
 
-			}, 75000);
+			};
+
+                        window.setInterval(function(){ window.load(); }, 30000);
 		</script>
 
 		<div class="twits">
